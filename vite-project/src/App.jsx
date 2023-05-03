@@ -14,13 +14,27 @@ export default function App() {
         title: newItem,
         completed: false
       },]
-      
     })
 
+    setNewItem("")
+
   }
+
+  function toogleTodo(id, completed) {
+    setTodos(currentTodos => {
+      return currentTodos.map(todo => {
+        if (todo.id === id) {
+          return { ...todo, completed }
+
+        }
+        return todo
+      })
+    })
+  }
+
   return (
     <div>
-      <form onSubmit={handleSubmit} className= "new-item-form">
+      <form onSubmit={handleSubmit} className="new-item-form">
         <div className="form-row">
           <label htmlFor="item">New item</label>
           <input
@@ -36,7 +50,8 @@ export default function App() {
         {todos.map(todo => {
           return <li key={todo.id}>
             <label >
-              <input type="checkbox" checked={todo.completed} />
+              <input type="checkbox" checked={todo.completed}
+                onChange={e => toogleTodo(todo.id, e.target.checked)} />
               {todo.title}
             </label>
             <button className='btn btn-danger'>Delete</button>
